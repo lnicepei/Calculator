@@ -29,6 +29,10 @@ body{
 #screen{
     width: 368px;
     height: 123px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    font-size: 50px;
     /* border: 1px solid black; */
     margin: 20px;
     /* border-radius: 50px; */
@@ -51,7 +55,6 @@ body{
     padding: 10px;
     background-color: #f9f9f9;
     border-radius: 30px;
-    
 }
 .button:hover{
     background-color: #dfc7c7;
