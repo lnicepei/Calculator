@@ -1,24 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap');
 body{
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
     height: 98vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: grey;
 }
 #body{
     display: flex;
     justify-content: space-around;
     align-items: center;
     flex-direction: column;
-    border: 2px solid black;
-    border-radius: 50px;
+    /* border: 1px solid grey; */
+    border-radius: 30px;
     margin: 50px;
+    box-shadow: -6px -6px 10px rgba(255, 255, 255, 0.5),
+    6px 6px 10px rgba(0, 0, 0, 0.1);
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; 
+    background-color: white;
 }
 #screen{
     width: 368px;
     height: 123px;
-    background-color: rgb(255, 0, 0);
+    /* border: 1px solid black; */
     margin: 20px;
-    border-radius: 50px;
+    /* border-radius: 50px; */
+    background-color: #ffffff;
 }
 #secondRow, #thirdRow, #fourthRow, #fifthRow{
     display: flex;
@@ -31,9 +45,16 @@ body{
     flex-direction: row;
     justify-content: space-around;
     margin-top: -10px;
+    color: #47fad9;
 }
 #buttons{
     padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 30px;
+    
+}
+.button:hover{
+    background-color: #dfc7c7;
 }
 .button{
     font-size: larger;
@@ -44,9 +65,19 @@ body{
     width: 60px;
     margin: 10px;
     padding: 10px;
-    border: 1px solid grey;
-    border-radius: 60px;
+    box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.05);
+    /* border: 1px solid grey; */
+    /* box-shadow: 15px 0 15px -15px rgba(0, 0, 0, 0.4); */
+    border-radius: 10px;
+    background-color: #f7f7f7;
+    transition: 0.2s linear;
 }
 #clear, #delete{
     width: 162px;
+}
+#divide, #multiply, #subtract, #add{
+    color: #eb6464;
+}
+#one, #two, #three, #four, #five, #five, #six, #seven, #eight, #nine, #zero, #dot, #equals{
+    color: gray;
 }
