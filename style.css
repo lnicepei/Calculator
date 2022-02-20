@@ -51,15 +51,15 @@ body{
     margin-top: -10px;
     color: #47fad9;
 }
-#buttons{
+#buttons, .ac, .delete, .dot{
     padding: 10px;
     background-color: #f9f9f9;
     border-radius: 30px;
 }
-.button:hover{
+.button:hover, .buttonDigit:hover, .ac:hover, .delete:hover, .dot:hover{
     background-color: #dfc7c7;
 }
-.button{
+.button, .buttonDigit, .ac, .delete, .dot{
     font-size: larger;
     display: flex;
     justify-content: center;
