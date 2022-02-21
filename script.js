@@ -1,24 +1,16 @@
 let displayValue = document.createElement("div");
-let digitCounter = 0;
-let content;
 
 let num1 = 8,
-  num2 = 4,
-  operation = "",
-  screenArr = [];
-
-let temporaryHolder = 0,
-  result = 0,
-  divideCounter = 0,
-  newString = "";
-
-function numberIncreaser() {
-  num1++;
-  displayValue.textContent = operate(num1, num2, operation);
-}
+num2 = 4,
+operation = "",
+screenArr = [];
 
 let btns = document.getElementsByClassName("buttonDigit");
 let btnsArray = [...btns];
+
+document.getElementById("clear").addEventListener("click", clarifier);
+document.getElementById("delete").addEventListener("click", deleter);
+document.getElementById("dot").addEventListener("click", dotter);
 
 main();
 
@@ -38,12 +30,9 @@ function main() {
 function digitButtonAssigner(btn) {
   if(parseInt(document.getElementById("screen").textContent).toString().length < 11){
     document.getElementById("screen").textContent += btn.srcElement.textContent;
-    console.log(parseInt(document.getElementById("screen").textContent).toString().length);
-  ++digitCounter;
+    console.log(parseInt(document.getElementById("screen")).toString().length);
   }
 }
-document.getElementById("clear").addEventListener("click", clarifier);
-document.getElementById("delete").addEventListener("click", deleter);
 function operate(num1, num2, operation) {
   if (operation === "+") {
     return num1 + num2;
@@ -68,7 +57,13 @@ function deleter(){
   document.getElementById("screen").textContent = "";
   document.getElementById("screen").textContent += deletedNumber;
 }
-
+function dotter(){
+  let dummyString = document.getElementById("screen").textContent.toString();
+  dummyString = dummyString.replace(/\./g,'');
+  if(document.getElementById("screen").textContent.toString() == dummyString){
+    document.getElementById("screen").textContent += ".";
+  }
+}
 
 
 
