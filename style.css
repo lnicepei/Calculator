@@ -37,6 +37,7 @@ body{
     margin: 20px;
     /* border-radius: 50px; */
     background-color: #ffffff;
+    /* max-width:min-content; */
 }
 #secondRow, #thirdRow, #fourthRow, #fifthRow{
     display: flex;
