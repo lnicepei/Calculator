@@ -5,7 +5,7 @@ let num1 = [],
   num2 = [],
   operation = "",
   screenArr = [];
-let temporaryHolder = 0, result = 0, divideCounter = 0;
+let temporaryHolder = 0, result = 0, divideCounter = 0, newString ="";
 
 function numberIncreaser() {
   num1++;
@@ -53,29 +53,50 @@ function clarifier() {
   document.getElementById("screen").textContent = "";
   digitCounter = 0;
   divideCounter = 0;
+  temporaryHolder = 0;
 }
 function screenUpdater(num) {
-  if (digitCounter < 12) {
+  // console.log(toString(num).length);
+  // if (toString(num).length < 12) {
+  //   document.getElementById("screen").textContent += num;
+  if(num.toString().length >= 12){
+    for(let i = 0; i < num.toString().length; i++){
+      if(num.toString().length >= 12){
+        newString = num.toString().slice(0, -7);
+      }
+    }
+    document.getElementById("screen").textContent += newString; 
+    // let numString = num.toString();
+    // newString = num.toString().slice(0, -1);
+    console.log(newString);
+  }else{
     document.getElementById("screen").textContent += num;
-    // console.log(parseInt(document.getElementById("screen").textContent));
   }
+    // console.log(parseInt(document.getElementById("screen").textContent));
+  // }else{
+  //   for(let i = 0; i < toString(parseInt(document.getElementById("screen").textContent)).length; i++){
+  //   }
+  //  screenUpdater(toString(parseInt(document.getElementById("screen").textContent)));
+  // }
   // document.getElementById("screen").appendChild(displayValue);
 }
 
   let operations = document.getElementsByClassName("button");
   let btnsArray1 = [...operations];
   let divide = document.querySelector('#divide');
-  divide.addEventListener('click', function(){
-      temporaryHolder = parseInt(document.getElementById("screen").textContent); 
-      // clarifier();
-      // // let number2 = 2;
-      // result = temporaryHolder / number2;
-      // screenUpdater(result);
-      setTimeout(operationDivide(temporaryHolder), 10000);
-      // operationDivide(temporaryHolder);
-    console.log(result);
-  },false);
-// });
+
+  divide.addEventListener('click', divideButtonAssigner, false);
+
+function divideButtonAssigner(){
+  temporaryHolder = parseInt(document.getElementById("screen").textContent); 
+  // clarifier();
+  // // let number2 = 2;
+  // result = temporaryHolder / number2;
+  // screenUpdater(result);
+  operationDivide(temporaryHolder);
+  // operationDivide(temporaryHolder);
+console.log(result);
+}
 
 function operationDivide(numFromHolder){
   buttonClarifier();
@@ -85,16 +106,14 @@ function operationDivide(numFromHolder){
   if(divideCounter == 0){
     result = numFromHolder;
     divideCounter++;
+    document.getElementById("screen").textContent = "";
   }else{
     document.getElementById("screen").textContent = "";
-    screenUpdater(result / numFromHolder);
+    result /= numFromHolder;
+    // console.log(toString(parseInt(document.getElementById("screen").textContent)).length); 
+
+    screenUpdater(result);
     // clarifier();
   }
-  // screenUpdater(result + 2);
-
+  
 }
-// function getSecondNumber(){
-//   buttonClarifier();
-//   main();
-//   let temporaryHolder2
-// }
