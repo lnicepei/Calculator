@@ -1,9 +1,6 @@
 let displayValue = document.createElement("div");
 
-let num1 = 8,
-num2 = 4,
-operation = "",
-screenArr = [];
+let operation = "", result = 1, currentNumber = 0, previousNumber = 0, operationCounter = 0, index = 0;
 
 let btns = document.getElementsByClassName("buttonDigit");
 let btnsArray = [...btns];
@@ -15,55 +12,103 @@ document.getElementById("dot").addEventListener("click", dotter);
 main();
 
 function main() {
+  document.getElementById("screen").textContent = "0";
   btnsArray.forEach((btn) => {
     btn.addEventListener("click", digitButtonAssigner, false);
   });
   let operations = document.getElementsByClassName("button");
   let btnsArray1 = [...operations];
-  let divide = document.querySelector("#divide");
 
   // divide.addEventListener("click", operate, false);
   for (let buttonOfArray of btnsArray1) {
     buttonOfArray.addEventListener("click", operate, false);
   }
 }
+
 function digitButtonAssigner(btn) {
-  if(parseInt(document.getElementById("screen").textContent).toString().length < 11){
+  if(index == 0){
+    document.getElementById("screen").textContent = "";
+  }
+  // if(document.getElementById("screen").textContent == "0"){
+  //   document.getElementById("screen").textContent = "";
+  // }
+  if (parseInt(document.getElementById("screen").textContent).toString().length < 11) {
     document.getElementById("screen").textContent += btn.srcElement.textContent;
-    console.log(parseInt(document.getElementById("screen")).toString().length);
+    // console.log(parseInt(document.getElementById("screen")).toString().length);
   }
+  index++;
 }
-function operate(num1, num2, operation) {
-  if (operation === "+") {
-    return num1 + num2;
-  } else if (operation === "-") {
-    return num1 - num2;
-  } else if (operation === "*") {
-    return num1 * num2;
-  } else if (operation === "/") {
-    result = num1 / num2;
-    alert(result);
-    return result;
+
+function operate(btn) {
+  // if(parseFloat(document.getElementById("screen").textContent) % 10 != 0){
+  //   let numberOnScreen = parseFloat(document.getElementById("screen").textContent)
+  // }
+  if(operationCounter != 0){
+    currentNumber = parseFloat(document.getElementById("screen").textContent);
   }
-  return num1;
+  if(operationCounter == 0){
+    previousNumber = parseFloat(document.getElementById("screen").textContent);
+  }
+  operation = btn.srcElement.textContent;
+  document.getElementById("screen").textContent = "";
+  if(operationCounter > 0){
+    if (operation === "+") {
+      result = currentNumber + previousNumber;
+      previousNumber = result;
+      document.getElementById("screen").textContent = result;
+    } else if (operation === "-") {
+      result = -currentNumber + previousNumber;
+      previousNumber = result;
+      document.getElementById("screen").textContent = result;
+    } else if (operation === "*") {
+      result = currentNumber * previousNumber;
+      previousNumber = result;
+      document.getElementById("screen").textContent = result;
+    } else if (operation === "/") {
+      // if(document.getElementById("screen").textContent != "0"){
+      //   document.getElementById("screen").textContent = "";
+      // }
+      result = previousNumber / currentNumber;
+      previousNumber = result;
+      document.getElementById("screen").textContent = result;
+    }
+  }
+  ++operationCounter;
+  index = 0;
 }
 
 function clarifier() {
-  document.getElementById("screen").textContent = "";
+  document.getElementById("screen").textContent = "0";
+  operationCounter = 0;
+  index = 0;
 }
-function deleter(){
-  let deletedNumber = (document.getElementById("screen").textContent);
+
+function deleter() {
+  let deletedNumber = document.getElementById("screen").textContent;
   deletedNumber = deletedNumber.slice(0, -1);
   document.getElementById("screen").textContent = "";
   document.getElementById("screen").textContent += deletedNumber;
 }
-function dotter(){
+
+function dotter() {
   let dummyString = document.getElementById("screen").textContent.toString();
-  dummyString = dummyString.replace(/\./g,'');
-  if(document.getElementById("screen").textContent.toString() == dummyString){
+  dummyString = dummyString.replace(/\./g, "");
+  if (document.getElementById("screen").textContent.toString() == dummyString) {
     document.getElementById("screen").textContent += ".";
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
