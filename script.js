@@ -1,6 +1,6 @@
 let displayValue = document.createElement("div");
 
-let operation = "", result = 1, currentNumber = 0, previousNumber = 0, operationCounter = 0, index = 0;
+let operation = "", result = 1, currentNumber = 0, previousNumber = 0, operationCounter = 0, index = 0, newString = "";
 
 let btns = document.getElementsByClassName("buttonDigit");
 let btnsArray = [...btns];
@@ -32,7 +32,7 @@ function digitButtonAssigner(btn) {
   // if(document.getElementById("screen").textContent == "0"){
   //   document.getElementById("screen").textContent = "";
   // }
-  if (parseInt(document.getElementById("screen").textContent).toString().length < 11) {
+  if (parseFloat(document.getElementById("screen").textContent).toString().length < 11) {
     document.getElementById("screen").textContent += btn.srcElement.textContent;
     // console.log(parseInt(document.getElementById("screen")).toString().length);
   }
@@ -70,7 +70,16 @@ function operate(btn) {
       // }
       result = previousNumber / currentNumber;
       previousNumber = result;
-      document.getElementById("screen").textContent = result;
+      if(result.toString().length >= 15){
+        for (let i = 0; i < result.toString().length; i++){
+                newString = result.toString().slice(0, 10 - result.toString().length);
+            }
+            document.getElementById("screen").textContent = newString;
+            console.log(newString);
+      }else{
+        document.getElementById("screen").textContent = result;
+        console.log(result);
+      }
     }
   }
   ++operationCounter;
