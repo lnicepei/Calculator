@@ -39,18 +39,28 @@ function digitButtonAssigner(btn) {
   index++;
 }
 
+function operationChoice(btn){
+  if(index != 0){
+    index++;
+    return btn.srcElement.textContent;
+  }
+}
+
 function operate(btn) {
   // if(parseFloat(document.getElementById("screen").textContent) % 10 != 0){
   //   let numberOnScreen = parseFloat(document.getElementById("screen").textContent)
   // }
+  if(operationCounter == 2){
+    operationCounter = 1;
+  }
   if(operationCounter != 0){
     currentNumber = parseFloat(document.getElementById("screen").textContent);
   }
   if(operationCounter == 0){
     previousNumber = parseFloat(document.getElementById("screen").textContent);
   }
-  operation = btn.srcElement.textContent;
-  document.getElementById("screen").textContent = "";
+  operation = operationChoice(btn);
+  // document.getElementById("screen").textContent = "";
   if(operationCounter > 0){
     if (operation === "+") {
       result = currentNumber + previousNumber;
@@ -70,17 +80,9 @@ function operate(btn) {
       // }
       result = previousNumber / currentNumber;
       previousNumber = result;
-      if(result.toString().length >= 15){
-        for (let i = 0; i < result.toString().length; i++){
-                newString = result.toString().slice(0, 10 - result.toString().length);
-            }
-            document.getElementById("screen").textContent = newString;
-            console.log(newString);
-      }else{
-        document.getElementById("screen").textContent = result;
-        console.log(result);
-      }
+      
     }
+    screenUpdater(result);
   }
   ++operationCounter;
   index = 0;
@@ -107,6 +109,18 @@ function dotter() {
   }
 }
 
+function screenUpdater(result){
+  if(result.toString().length >= 15){
+    for (let i = 0; i < result.toString().length; i++){
+            newString = result.toString().slice(0, 10 - result.toString().length);
+        }
+        document.getElementById("screen").textContent = newString;
+        console.log(newString);
+  }else{
+    document.getElementById("screen").textContent = result;
+    console.log(result);
+  }
+}
 
 
 
