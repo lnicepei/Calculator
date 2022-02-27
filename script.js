@@ -29,9 +29,9 @@ function digitButtonAssigner(btn) {
   if(index == 0){
     document.getElementById("screen").textContent = "";
   }
-  // if(document.getElementById("screen").textContent == "0"){
-  //   document.getElementById("screen").textContent = "";
-  // }
+  if(document.getElementById("screen").textContent == "0"){
+    document.getElementById("screen").textContent = "";
+  }
   if (parseFloat(document.getElementById("screen").textContent).toString().length < 11) {
     document.getElementById("screen").textContent += btn.srcElement.textContent;
     // console.log(parseInt(document.getElementById("screen")).toString().length);
@@ -50,15 +50,18 @@ function operate(btn) {
   // if(parseFloat(document.getElementById("screen").textContent) % 10 != 0){
   //   let numberOnScreen = parseFloat(document.getElementById("screen").textContent)
   // }
-  if(operationCounter == 2){
-    operationCounter = 1;
-  }
+  // if(operationCounter == 2){
+  //   operationCounter = 1;
+  // }
   if(operationCounter != 0){
     currentNumber = parseFloat(document.getElementById("screen").textContent);
   }
   if(operationCounter == 0){
     previousNumber = parseFloat(document.getElementById("screen").textContent);
+    // operation = operationChoice(btn);
   }
+  // if(operationCounter > 1){
+  // }
   operation = operationChoice(btn);
   // document.getElementById("screen").textContent = "";
   if(operationCounter > 0){
