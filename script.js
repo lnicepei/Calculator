@@ -53,8 +53,8 @@ function operationChoice(btn) {
     operationsArray.push(btn.srcElement.textContent);
     console.log(operationsArray);
     console.log(operationsArray[operationIndex - 1]);
-    operationIndex++;
-    return btn.srcElement.textContent;
+    
+    return operationsArray[operationIndex - 1];
   }
   index++;
 }
@@ -67,6 +67,7 @@ function operate(btn) {
     previousNumber = parseFloat(document.getElementById("screen").textContent);
   }
   operation = operationChoice(btn);
+  operationIndex++;
   if (operationCounter > 0) {
     if (operation === "+") {
       result = currentNumber + previousNumber;
@@ -96,7 +97,8 @@ function clarifier() {
   document.getElementById("screen").textContent = "0";
   operationCounter = 0;
   index = 0;
-  operationIndex = 0
+  operationIndex = 0;
+  operationsArray =[];
 }
 
 function deleter() {
