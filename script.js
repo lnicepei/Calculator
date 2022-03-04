@@ -17,6 +17,11 @@ document.getElementById("clear").addEventListener("click", clarifier);
 document.getElementById("delete").addEventListener("click", deleter);
 document.getElementById("dot").addEventListener("click", dotter);
 
+window.addEventListener('keydown', function(e){
+  digitButtonAssigner(e.key);
+  operationChoice(e.key);
+});
+
 main();
 
 function main() {
@@ -39,20 +44,26 @@ function digitButtonAssigner(btn) {
   if (document.getElementById("screen").textContent == "0") {
     document.getElementById("screen").textContent = "";
   }
-  if (
-    parseFloat(document.getElementById("screen").textContent).toString()
-      .length < 11
-  ) {
-    document.getElementById("screen").textContent += btn.srcElement.textContent;
+  if (parseFloat(document.getElementById("screen").textContent).toString().length < 11) {
+    if(btn.srcElement !== undefined){
+      document.getElementById("screen").textContent += btn.srcElement.textContent;
+    }else if(btn < 9 && btn >= 0){
+      document.getElementById("screen").textContent += btn;
+    }
   }
   index = 1;
 }
-
 function operationChoice(btn) {
+  // console.log(btn);
   if (index != 0) {
-    operationsArray.push(btn.srcElement.textContent);
-    console.log(operationsArray);
-    console.log(operationsArray[operationIndex - 1]);
+    if(btn == "+" || btn == "-" || btn == "*" || btn == "/"){
+      operationsArray.push(btn);
+      console.log(btn);
+    }else if(btn.srcElement.textContent == "+" || btn.srcElement.textContent == "-" || btn.srcElement.textContent == "*" || btn.srcElement.textContent == "/"){
+      operationsArray.push(btn.srcElement.textContent);
+      console.log(operationsArray);
+      console.log(operationsArray[operationIndex - 1]);
+    }
     
     return operationsArray[operationIndex - 1];
   }

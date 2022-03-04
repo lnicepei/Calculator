@@ -2,11 +2,13 @@
 body{
     font-family: 'Inter', sans-serif;
     font-weight: 900;
+    color: #d9b44a;
     height: 98vh;
+    width: auto;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: grey;
+    background-color: #acd0c0;
 }
 #body{
     display: flex;
@@ -16,15 +18,15 @@ body{
     /* border: 1px solid grey; */
     border-radius: 30px;
     margin: 50px;
-    box-shadow: -6px -6px 10px rgba(255, 255, 255, 0.5),
-    6px 6px 10px rgba(0, 0, 0, 0.1);
+    /* box-shadow: -6px -6px 10px rgba(255, 255, 255, 0.5),
+    6px 6px 10px rgba(0, 0, 0, 0.1); */
     -webkit-touch-callout: none;
     -webkit-user-select: none;
      -khtml-user-select: none;
        -moz-user-select: none;
         -ms-user-select: none;
             user-select: none; 
-    background-color: white;
+    background-color: #f1f1f2;
 }
 #screen{
     width: 368px;
@@ -34,7 +36,7 @@ body{
     justify-content: flex-end;
     font-size: 50px;
     margin: 20px;
-    background-color: #ffffff;
+    background-color: #f1f1f2;
 }
 #secondRow, #thirdRow, #fourthRow, #fifthRow{
     display: flex;
@@ -50,7 +52,7 @@ body{
 }
 #buttons, .ac, .delete, .dot{
     padding: 10px;
-    background-color: #f9f9f9;
+    background-color: #4f6457;
     border-radius: 30px;
 }
 .button:hover, .buttonDigit:hover, .ac:hover, .delete:hover, .dot:hover{
@@ -61,13 +63,13 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 60px;
-    width: 60px;
+    height: 50px;
+    width: 50px;
     margin: 10px;
     padding: 10px;
     box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.05);
     border-radius: 10px;
-    background-color: #f7f7f7;
+    background-color: #75b1a9;
     transition: 0.2s linear;
 }
 #clear, #delete{
