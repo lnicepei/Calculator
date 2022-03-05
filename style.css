@@ -37,6 +37,7 @@ body{
     font-size: 50px;
     margin: 20px;
     background-color: #f1f1f2;
+    transition: 0.5s linear;
 }
 #secondRow, #thirdRow, #fourthRow, #fifthRow{
     display: flex;

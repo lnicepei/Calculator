@@ -131,6 +131,7 @@ function deleter() {
   deletedNumber = deletedNumber.slice(0, -1);
   document.getElementById("screen").textContent = "";
   document.getElementById("screen").textContent += deletedNumber;
+  if(deletedNumber == "") document.getElementById("screen").textContent = "0";
 }
 
 function dotter() {
