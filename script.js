@@ -18,8 +18,12 @@ document.getElementById("delete").addEventListener("click", deleter);
 document.getElementById("dot").addEventListener("click", dotter);
 
 window.addEventListener('keydown', function(e){
-  digitButtonAssigner(e.key);
-  operationChoice(e.key);
+  if(e.key >= 0 && e.key <= 9) digitButtonAssigner(e.key);
+  if(e.key == "+" || e.key == "-" || e.key == "*" || e.key == "/") operate(e.key);
+  if(e.key == '.') dotter();
+  if(e.key == "Backspace") deleter();
+  if(e.key == "Delete") clarifier();
+  // console.log(e.key);
 });
 
 main();
@@ -47,7 +51,7 @@ function digitButtonAssigner(btn) {
   if (parseFloat(document.getElementById("screen").textContent).toString().length < 11) {
     if(btn.srcElement !== undefined){
       document.getElementById("screen").textContent += btn.srcElement.textContent;
-    }else if(btn < 9 && btn >= 0){
+    }else if(btn <= 9 && btn >= 0 || btn == "."){
       document.getElementById("screen").textContent += btn;
     }
   }
@@ -56,9 +60,15 @@ function digitButtonAssigner(btn) {
 function operationChoice(btn) {
   // console.log(btn);
   if (index != 0) {
+    // if(operationIndex > 4){
+    //   let temp = operationsArray[operationIndex - 1];
+    //   operationIndex = 0;
+    //   operationsArray = [];
+    //   operationsArray.push(temp);
+    // }
     if(btn == "+" || btn == "-" || btn == "*" || btn == "/"){
       operationsArray.push(btn);
-      console.log(btn);
+      console.log(operationsArray);
     }else if(btn.srcElement.textContent == "+" || btn.srcElement.textContent == "-" || btn.srcElement.textContent == "*" || btn.srcElement.textContent == "/"){
       operationsArray.push(btn.srcElement.textContent);
       console.log(operationsArray);
@@ -83,22 +93,26 @@ function operate(btn) {
     if (operation === "+") {
       result = currentNumber + previousNumber;
       previousNumber = result;
-      document.getElementById("screen").textContent = result;
+      screenUpdater(result);
+      // document.getElementById("screen").textContent = result;
     } else if (operation === "-") {
       result = -currentNumber + previousNumber;
       previousNumber = result;
-      document.getElementById("screen").textContent = result;
+      screenUpdater(result);
+      // document.getElementById("screen").textContent = result;
     } else if (operation === "*") {
       result = currentNumber * previousNumber;
       previousNumber = result;
-      document.getElementById("screen").textContent = result;
+      screenUpdater(result);
+      // document.getElementById("screen").textContent = result;
     } else if (operation === "/") {
       result = previousNumber / currentNumber;
       previousNumber = result;
+      screenUpdater(result);
     } else if (operation === "=") {
       screenUpdater(result);
     }
-    screenUpdater(result);
+    // screenUpdater(result);
   }
   ++operationCounter;
   index = 0;
@@ -125,6 +139,7 @@ function dotter() {
   if (document.getElementById("screen").textContent.toString() == dummyString) {
     document.getElementById("screen").textContent += ".";
   }
+  index++;
 }
 
 function screenUpdater(result) {
