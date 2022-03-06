@@ -37,7 +37,7 @@ body{
     font-size: 50px;
     margin: 20px;
     background-color: #f1f1f2;
-    transition: 0.5s linear;
+    /* transition: 0.5s linear; */
 }
 #secondRow, #thirdRow, #fourthRow, #fifthRow{
     display: flex;
@@ -71,7 +71,7 @@ body{
     box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.05);
     border-radius: 10px;
     background-color: #75b1a9;
-    transition: 0.2s linear;
+    transition: 0.07s;
 }
 #clear, #delete{
     width: 162px;
@@ -81,4 +81,9 @@ body{
 }
 #one, #two, #three, #four, #five, #five, #six, #seven, #eight, #nine, #zero, #dot, #equals{
     color: gray;
+}
+.tapping{
+    transform: scale(0.9);
+    background-color: #dfc7c7;
+    transition: all 0.07;
 }

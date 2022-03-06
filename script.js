@@ -18,13 +18,30 @@ document.getElementById("delete").addEventListener("click", deleter);
 document.getElementById("dot").addEventListener("click", dotter);
 
 window.addEventListener('keydown', function(e){
-  if(e.key >= 0 && e.key <= 9) digitButtonAssigner(e.key);
-  if(e.key == "+" || e.key == "-" || e.key == "*" || e.key == "/") operate(e.key);
+  if(e.key >= 0 && e.key <= 9){
+    digitButtonAssigner(e.key);
+    buttonColorStart(e);
+  }
+  if(e.key == "+" || e.key == "-" || e.key == "*" || e.key == "/" || e.key == "=") operate(e.key);
   if(e.key == '.') dotter();
   if(e.key == "Backspace") deleter();
   if(e.key == "Delete") clarifier();
-  // console.log(e.key);
 });
+
+const buttons = document.querySelectorAll('.buttonDigit');
+buttons.forEach(button => button.addEventListener('transitionend', buttonColorEnd));
+
+function buttonColorEnd(e){
+  if(e.propertyName !== 'transform') return;
+  this.classList.remove('tapping');
+  console.log(e.propertyName)
+}
+
+function buttonColorStart(e){
+  const key = document.querySelector(`.buttonDigit[data-key ="${e.keyCode}"]`);
+  console.log(e.keyCode);
+  key.classList.add('tapping');
+}
 
 main();
 
@@ -43,22 +60,23 @@ function main() {
 
 function digitButtonAssigner(btn) {
   if (index == 0) {
-    document.getElementById("screen").textContent = "";
+    document.getElementById("screen").textContent = ""; //if() checks if there are digits on the screen after operations
   }
   if (document.getElementById("screen").textContent == "0") {
-    document.getElementById("screen").textContent = "";
+    document.getElementById("screen").textContent = "";         //forbids to add many 0s 
   }
   if (parseFloat(document.getElementById("screen").textContent).toString().length < 11) {
     if(btn.srcElement !== undefined){
       document.getElementById("screen").textContent += btn.srcElement.textContent;
     }else if(btn <= 9 && btn >= 0 || btn == "."){
       document.getElementById("screen").textContent += btn;
+      // btn.classList.add('button:hover')
+      console.log(btn);
     }
   }
   index = 1;
 }
 function operationChoice(btn) {
-  // console.log(btn);
   if (index != 0) {
     // if(operationIndex > 4){
     //   let temp = operationsArray[operationIndex - 1];
@@ -66,10 +84,10 @@ function operationChoice(btn) {
     //   operationsArray = [];
     //   operationsArray.push(temp);
     // }
-    if(btn == "+" || btn == "-" || btn == "*" || btn == "/"){
+    if(btn == "+" || btn == "-" || btn == "*" || btn == "/" || btn == "="){
       operationsArray.push(btn);
       console.log(operationsArray);
-    }else if(btn.srcElement.textContent == "+" || btn.srcElement.textContent == "-" || btn.srcElement.textContent == "*" || btn.srcElement.textContent == "/"){
+    }else if(btn.srcElement.textContent == "+" || btn.srcElement.textContent == "-" || btn.srcElement.textContent == "*" || btn.srcElement.textContent == "/" || btn.srcElement.textContent == "="){
       operationsArray.push(btn.srcElement.textContent);
       console.log(operationsArray);
       console.log(operationsArray[operationIndex - 1]);
@@ -111,6 +129,7 @@ function operate(btn) {
       screenUpdater(result);
     } else if (operation === "=") {
       screenUpdater(result);
+      previousNumber = result;
     }
     // screenUpdater(result);
   }
@@ -135,23 +154,13 @@ function deleter() {
 }
 
 function dotter() {
-  let dummyString = document.getElementById("screen").textContent.toString();
-  dummyString = dummyString.replace(/\./g, "");
-  if (document.getElementById("screen").textContent.toString() == dummyString) {
+  if(document.getElementById("screen").textContent.includes(".") !== true){
     document.getElementById("screen").textContent += ".";
   }
   index++;
 }
 
 function screenUpdater(result) {
-  if (result.toString().length >= 12) {
-    for (let i = 0; i < result.toString().length; i++) {
-      newString = result.toString().slice(0, 10 - result.toString().length);
-    }
-    document.getElementById("screen").textContent = newString;
-    console.log(newString);
-  } else {
-    document.getElementById("screen").textContent = result;
-    console.log(result);
-  }
+  result = Math.round(result*10000)/10000;
+  document.getElementById("screen").textContent = result;
 }
