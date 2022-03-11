@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@900&display=swap');
 body{
     font-family: 'Inter', sans-serif;
     font-weight: 900;
@@ -20,7 +21,6 @@ body{
     margin: 50px;
     /* box-shadow: -6px -6px 10px rgba(255, 255, 255, 0.5),
     6px 6px 10px rgba(0, 0, 0, 0.1); */
-    -webkit-touch-callout: none;
     -webkit-user-select: none;
      -khtml-user-select: none;
        -moz-user-select: none;
@@ -28,16 +28,30 @@ body{
             user-select: none; 
     background-color: #f1f1f2;
 }
-#screen{
+#currentScreen{
     width: 368px;
-    height: 123px;
+    height: 80px;
     display: flex;
     align-items: flex-end;
     justify-content: flex-end;
     font-size: 50px;
     margin: 20px;
+    margin-top: 0;
     background-color: #f1f1f2;
     /* transition: 0.5s linear; */
+}
+#previousScreen{
+    font-family: 'Roboto Slab', serif;
+    color: grey;    
+    width: 368px;
+    height: 23px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    font-size: 20px;
+    margin: 20px;
+    margin-bottom: 0;
+    background-color: #f1f1f2;
 }
 #secondRow, #thirdRow, #fourthRow, #fifthRow{
     display: flex;
