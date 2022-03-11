@@ -67,10 +67,10 @@ function operate (a, b, operation) {
   if (operation == "+"){
     return a + b;
   } else if (operation == "-"){
-    return a - b;
+    return b - a;
   } else if(operation == "*"){
     return a * b;
   } else if(operation == "/"){
-    return a / b;
+    return b / a;
   }
 }
