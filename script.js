@@ -4,7 +4,7 @@ let operationsButtonsArray = [...document.querySelectorAll('.button')];
 let currentScreen = document.getElementById('currentScreen');
 let previousScreen = document.getElementById('previousScreen');
 
-let indexOfEmptyScreen = 0, operation = "", currentNumber = 0, previousNumber = 0;
+let indexOfEmptyScreen = 0, currentOperation = "", previousOperation = "", currentNumber = 0, previousNumber = 0, indexAfterOperation = 0;
 
 digitButtonsArray.forEach(button => {
 
@@ -26,6 +26,11 @@ digitButtonsArray.forEach(button => {
             currentScreen.textContent = "";
             indexOfEmptyScreen++;
       }
+
+      if (indexAfterOperation == 1){
+        currentScreen.textContent = "";
+        indexAfterOperation = 0; //allows to change the operation
+      }
       
       currentScreen.textContent += button.textContent;
 
@@ -42,21 +47,20 @@ digitButtonsArray.forEach(button => {
 operationsButtonsArray.forEach(button =>{
 
   button.addEventListener('click', function() { 
-
     previousNumber = parseFloat(previousScreen.textContent.toString().slice(0, previousScreen.textContent.toString().length - 1));
+    currentNumber = parseFloat(currentScreen.textContent);
+    indexAfterOperation = 1;
+    
+    previousOperation = previousScreen.textContent.toString().slice(previousScreen.textContent.toString().length - 1, previousScreen.textContent.toString().length);
+    currentOperation = button.textContent;
+    
     previousScreen.textContent = currentScreen.textContent;
     previousScreen.textContent += button.textContent;
-    operation = previousScreen.textContent.toString().slice(previousScreen.textContent.toString().length - 1, previousScreen.textContent.toString().length)
-    currentNumber = parseFloat(currentScreen.textContent);
-    // console.log(currentNumber);
-    // console.log(previousNumber);
-    console.log(operation);
-    console.log(currentNumber);
-    console.log(previousNumber);
-    console.log(Number.isNaN(currentNumber));
-    if(Number.isNaN(currentNumber) == false && Number.isNaN(previousNumber) == false && operation !== ""){
-      currentScreen.textContent = operate(currentNumber, previousNumber, operation);
-      previousScreen.textContent = operate(currentNumber, previousNumber, operation);
+
+    if(previousNumber !== currentNumber && isNaN(previousNumber) == false && isNaN(currentNumber) == false && currentOperation !== ""){
+      previousScreen.textContent = operate(currentNumber, previousNumber, previousOperation); 
+      previousScreen.textContent += button.textContent;
+      currentScreen.textContent = operate(currentNumber, previousNumber, previousOperation);
     }
 
   })

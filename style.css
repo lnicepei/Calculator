@@ -19,8 +19,8 @@ body{
     /* border: 1px solid grey; */
     border-radius: 30px;
     margin: 50px;
-    /* box-shadow: -6px -6px 10px rgba(255, 255, 255, 0.5),
-    6px 6px 10px rgba(0, 0, 0, 0.1); */
+    box-shadow: -6px -6px 10px rgba(255, 255, 255, 0.5),
+    6px 6px 10px rgba(0, 0, 0, 0.1);
     -webkit-user-select: none;
      -khtml-user-select: none;
        -moz-user-select: none;
