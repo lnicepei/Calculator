@@ -69,7 +69,7 @@ function operate (a, b, operation) {
 function currentScreenUpdater(button) {
   if (previousNumber !== currentNumber && isNaN(previousNumber) == false && isNaN(currentNumber) == false && currentOperation !== "") {
 
-    previousScreen.textContent = Math.round(operate(currentNumber, previousNumber, previousOperation); 
+    previousScreen.textContent = Math.round(operate(currentNumber, previousNumber, previousOperation)); 
     previousScreen.textContent += button.textContent;
     currentScreen.textContent = operate(currentNumber, previousNumber, previousOperation);
   }
