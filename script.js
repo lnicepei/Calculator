@@ -4,10 +4,16 @@ let operationsButtonsArray = [...document.querySelectorAll('.button')];
 let currentScreen = document.getElementById('currentScreen');
 let previousScreen = document.getElementById('previousScreen');
 let equals = document.getElementById('equals');
+let dot = document.getElementById('dot');
 
 let indexOfEmptyScreen = 0, currentOperation = "", previousOperation = "", currentNumber = 0, previousNumber = 0, indexAfterOperation = 0;
 
 equals.addEventListener('click', currentScreenUpdater);
+dot.addEventListener('click', function(){
+  if(currentScreen.textContent.includes(".") !== true){
+    currentScreen.textContent += ".";
+  }
+});
 
 digitButtonsArray.forEach(button => {
 
