@@ -3,8 +3,11 @@ let operationsButtonsArray = [...document.querySelectorAll('.button')];
 
 let currentScreen = document.getElementById('currentScreen');
 let previousScreen = document.getElementById('previousScreen');
+let equals = document.getElementById('equals');
 
 let indexOfEmptyScreen = 0, currentOperation = "", previousOperation = "", currentNumber = 0, previousNumber = 0, indexAfterOperation = 0;
+
+equals.addEventListener('click', currentScreenUpdater);
 
 digitButtonsArray.forEach(button => {
 
@@ -40,15 +43,25 @@ digitButtonsArray.forEach(button => {
 operationsButtonsArray.forEach(button => {
 
   button.addEventListener('click', function() { 
-    previousNumber = parseFloat(previousScreen.textContent.toString().slice(0, previousScreen.textContent.toString().length - 1));
+    if(isNaN(previousScreen.textContent.toString().slice(0, previousScreen.textContent.toString().length - 1)) !== false){
+      previousNumber = parseFloat(previousScreen.textContent.toString().slice(0, previousScreen.textContent.toString().length - 1));
+    } else{
+      previousNumber = parseFloat(previousScreen.textContent);
+    }
+
     currentNumber = parseFloat(currentScreen.textContent);
     indexAfterOperation = 1;
     
-    previousOperation = previousScreen.textContent.toString().slice(previousScreen.textContent.toString().length - 1, previousScreen.textContent.toString().length);
+    if(isNaN(previousScreen.textContent.toString().slice(0, previousScreen.textContent.toString().length - 1)) == false){
+      previousOperation = previousScreen.textContent.toString().slice(previousScreen.textContent.toString().length - 1, previousScreen.textContent.toString().length);
+    } else{
+      previousOperation = button.textContent;
+    }
     currentOperation = button.textContent;
     
     previousScreen.textContent = currentScreen.textContent;
-    previousScreen.textContent += button.textContent;
+    if(button.textContent !== "=")
+      previousScreen.textContent += button.textContent;
 
     currentScreenUpdater(button);
   })
@@ -69,8 +82,9 @@ function operate (a, b, operation) {
 function currentScreenUpdater(button) {
   if (previousNumber !== currentNumber && isNaN(previousNumber) == false && isNaN(currentNumber) == false && currentOperation !== "") {
 
-    previousScreen.textContent = Math.round(operate(currentNumber, previousNumber, previousOperation)); 
-    previousScreen.textContent += button.textContent;
-    currentScreen.textContent = operate(currentNumber, previousNumber, previousOperation);
+    previousScreen.textContent = Math.round(operate(currentNumber, previousNumber, previousOperation) * 10000) / 10000; 
+    if(button.textContent !== "=")
+      previousScreen.textContent += button.textContent;
+    currentScreen.textContent = Math.round(operate(currentNumber, previousNumber, previousOperation) * 10000) / 10000; 
   }
 }
