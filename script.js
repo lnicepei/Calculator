@@ -103,17 +103,16 @@ function deleter() {
   let deletedPreviousNumber = document.getElementById("previousScreen").textContent;
   let deletedCurrentNumber = document.getElementById('currentScreen').textContent;
 
-  // if (deletedPreviousNumber !== "Infinity" && deletedPreviousNumber !== undefined) {
-  //   deletedPreviousNumber = deletedPreviousNumber.toString().slice(0, deletedPreviousNumber.toString().length - 2) + deletedPreviousNumber[deletedPreviousNumber.toString().length - 1];
-  //   document.getElementById("previousScreen").textContent = "";
-  //   document.getElementById("previousScreen").textContent += deletedPreviousNumber;
-  // }
     if (deletedCurrentNumber !== "Infinity" && deletedCurrentNumber !== undefined) {
       deletedCurrentNumber = deletedCurrentNumber.toString().slice(0, -1);
       document.getElementById('currentScreen').textContent = "";
       document.getElementById('currentScreen').textContent = deletedCurrentNumber
+    } else if(deletedCurrentNumber == "Infinity"){
+      document.getElementById("previousScreen").textContent = "";
+      document.getElementById("currentScreen").textContent = "0";
     }
     
-    if (deletedPreviousNumber == "")
+    if (deletedCurrentNumber == "")
       document.getElementById("currentScreen").textContent = "0";
+
 }
