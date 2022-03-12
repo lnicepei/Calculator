@@ -6,18 +6,55 @@ let previousScreen = document.getElementById('previousScreen');
 let equals = document.getElementById('equals');
 let dot = document.getElementById('dot');
 let deleteButton = document.getElementById('delete');
+let clearButton = document.getElementById('clear');
 
-let indexOfEmptyScreen = 0, currentOperation = "", previousOperation = "", currentNumber = 0, previousNumber = 0, indexAfterOperation = 0;
+let indexOfEmptyScreen = 0,
+ currentOperation = "", 
+ previousOperation = "", 
+ currentNumber = 0, 
+ previousNumber = 0, 
+ indexAfterOperation = 0;
+
 currentScreen.textContent = 0;
 
 equals.addEventListener('click', currentScreenUpdater);
 dot.addEventListener('click', function(){
-  if(currentScreen.textContent.includes(".") !== true){
+
+  if (currentScreen.textContent.includes(".") !== true){
+
     currentScreen.textContent += ".";
   }
 });
 
-deleteButton.addEventListener('click', deleter);
+clearButton.addEventListener('click', function(){
+  currentScreen.textContent = 0;
+  previousScreen.textContent = "";
+  indexOfEmptyScreen = 0,
+  currentOperation = "", 
+  previousOperation = "", 
+  currentNumber = 0, 
+  previousNumber = 0, 
+  indexAfterOperation = 0
+});
+
+deleteButton.addEventListener('click', function(){
+
+  let deletedCurrentNumber = document.getElementById('currentScreen').textContent;
+
+    if (deletedCurrentNumber !== "Infinity" && deletedCurrentNumber !== undefined) {
+      deletedCurrentNumber = deletedCurrentNumber.toString().slice(0, -1);
+      currentScreen.textContent = "";
+      currentScreen.textContent = deletedCurrentNumber
+    } else if (deletedCurrentNumber == "Infinity"){
+      previousScreen.textContent = "";
+      currentScreen.textContent = "0";
+    }
+    
+    if (deletedCurrentNumber == ""){
+      currentScreen.textContent = "0";
+      previousScreen.textContent = "";
+    }
+});
 
 digitButtonsArray.forEach(button => {
 
@@ -38,6 +75,7 @@ digitButtonsArray.forEach(button => {
       }
 
       if (indexAfterOperation == 1) {
+
         currentScreen.textContent = "";
         indexAfterOperation = 0; //allows to change the operation
       }
@@ -53,18 +91,23 @@ digitButtonsArray.forEach(button => {
 operationsButtonsArray.forEach(button => {
 
   button.addEventListener('click', function() { 
-    if(isNaN(previousScreen.textContent.toString().slice(0, previousScreen.textContent.toString().length - 1)) !== false){
+
+    if (isNaN(previousScreen.textContent.toString().slice(0, previousScreen.textContent.toString().length - 1)) !== false){
+
       previousNumber = parseFloat(previousScreen.textContent.toString().slice(0, previousScreen.textContent.toString().length - 1));
-    } else{
+    } else {
+
       previousNumber = parseFloat(previousScreen.textContent);
     }
 
     currentNumber = parseFloat(currentScreen.textContent);
     indexAfterOperation = 1;
     
-    if(isNaN(previousScreen.textContent.toString().slice(0, previousScreen.textContent.toString().length - 1)) == false){
+    if (isNaN(previousScreen.textContent.toString().slice(0, previousScreen.textContent.toString().length - 1)) == false){
+
       previousOperation = previousScreen.textContent.toString().slice(previousScreen.textContent.toString().length - 1, previousScreen.textContent.toString().length);
-    } else{
+    } else {
+      
       previousOperation = button.textContent;
     }
     currentOperation = button.textContent;
@@ -78,6 +121,7 @@ operationsButtonsArray.forEach(button => {
 });
 
 function operate (a, b, operation) {
+
   if (operation == "+"){
     return a + b;
   } else if (operation == "-"){
@@ -90,29 +134,12 @@ function operate (a, b, operation) {
 }
 
 function currentScreenUpdater(button) {
+
   if (previousNumber !== currentNumber && isNaN(previousNumber) == false && isNaN(currentNumber) == false && currentOperation !== "") {
 
     previousScreen.textContent = Math.round(operate(currentNumber, previousNumber, previousOperation) * 10000000) / 10000000; 
-    if(button.textContent !== "=")
+    if (button.textContent !== "=")
       previousScreen.textContent += button.textContent;
     currentScreen.textContent = Math.round(operate(currentNumber, previousNumber, previousOperation) * 10000000) / 10000000; 
   }
-}
-
-function deleter() {
-  let deletedPreviousNumber = document.getElementById("previousScreen").textContent;
-  let deletedCurrentNumber = document.getElementById('currentScreen').textContent;
-
-    if (deletedCurrentNumber !== "Infinity" && deletedCurrentNumber !== undefined) {
-      deletedCurrentNumber = deletedCurrentNumber.toString().slice(0, -1);
-      document.getElementById('currentScreen').textContent = "";
-      document.getElementById('currentScreen').textContent = deletedCurrentNumber
-    } else if(deletedCurrentNumber == "Infinity"){
-      document.getElementById("previousScreen").textContent = "";
-      document.getElementById("currentScreen").textContent = "0";
-    }
-    
-    if (deletedCurrentNumber == "")
-      document.getElementById("currentScreen").textContent = "0";
-
 }
