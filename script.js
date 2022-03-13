@@ -1,70 +1,93 @@
-let digitButtonsArray = [...document.querySelectorAll('.buttonDigit')];
-let operationsButtonsArray = [...document.querySelectorAll('.button')];
+main();
 
-let currentScreen = document.getElementById('currentScreen');
-let previousScreen = document.getElementById('previousScreen');
-let equals = document.getElementById('equals');
-let dot = document.getElementById('dot');
-let deleteButton = document.getElementById('delete');
-let clearButton = document.getElementById('clear');
+function main(){
 
-let indexOfEmptyScreen = 0,
- currentOperation = "", 
- previousOperation = "", 
- currentNumber = 0, 
- previousNumber = 0, 
- indexAfterOperation = 0;
+  let digitButtonsArray = [...document.querySelectorAll('.buttonDigit')];
+  let operationsButtonsArray = [...document.querySelectorAll('.button')];
 
-currentScreen.textContent = 0;
+  let equals = document.getElementById('equals');
+  let dot = document.getElementById('dot');
+  let deleteButton = document.getElementById('delete');
+  let clearButton = document.getElementById('clear');
 
-equals.addEventListener('click', currentScreenUpdater);
-dot.addEventListener('click', function(){
-
-  if (currentScreen.textContent.includes(".") !== true && currentScreen.textContent !== "" && indexAfterOperation == 0){
-
-    currentScreen.textContent += ".";
-  }else if(currentScreen.textContent == "" || indexAfterOperation == 1){
-
-    currentScreen.textContent = "";
-    currentScreen.textContent += "0."
-    indexAfterOperation = 0;
-  }
-});
-
-clearButton.addEventListener('click', function(){
-  currentScreen.textContent = 0;
-  previousScreen.textContent = "";
-  indexOfEmptyScreen = 0,
+  let indexOfEmptyScreen = 0,
   currentOperation = "", 
   previousOperation = "", 
   currentNumber = 0, 
   previousNumber = 0, 
-  indexAfterOperation = 0
-});
-
-deleteButton.addEventListener('click', function(){
-
-  let deletedCurrentNumber = document.getElementById('currentScreen').textContent;
-
-    if (deletedCurrentNumber !== "Infinity" && deletedCurrentNumber !== undefined) {
-      deletedCurrentNumber = deletedCurrentNumber.toString().slice(0, -1);
-      currentScreen.textContent = "";
-      currentScreen.textContent = deletedCurrentNumber
-    } else if (deletedCurrentNumber == "Infinity"){
-      previousScreen.textContent = "";
-      currentScreen.textContent = "0";
-    }
+  indexAfterOperation = 0;
+  
+  currentScreen.textContent = 0;
+  
+  equals.addEventListener('click', currentScreenUpdate);
+  clearButton.addEventListener('click', cleaner);
+  dot.addEventListener('click', dotter);
+  deleteButton.addEventListener('click', remove);
+  
+  operationsButtonsArray.forEach(button => {
     
-    if (deletedCurrentNumber == ""){
-      currentScreen.textContent = "0";
-      previousScreen.textContent = "";
+    button.addEventListener('click', assignOperationButtons)
+  });
+
+  digitButtonsArray.forEach(button => {
+  
+    button.addEventListener('click', assignDigitButtons);
+  });
+  
+  function cleaner(){
+    
+    currentScreen.textContent = 0;
+    previousScreen.textContent = "";
+    indexOfEmptyScreen = 0,
+    currentOperation = "", 
+    previousOperation = "", 
+    currentNumber = 0, 
+    previousNumber = 0, 
+    indexAfterOperation = 0
+  }
+
+  function dotter(){
+  
+    let currentScreen = document.getElementById('currentScreen');
+  
+    if (currentScreen.textContent.includes(".") !== true && currentScreen.textContent !== "" && indexAfterOperation == 0){
+  
+      currentScreen.textContent += ".";
+    }else if(currentScreen.textContent == "" || indexAfterOperation == 1){
+  
+      currentScreen.textContent = "";
+      currentScreen.textContent += "0."
+      indexAfterOperation = 0;
     }
-});
+  }
 
-digitButtonsArray.forEach(button => {
+  function remove(){
 
-  button.addEventListener('click', function() {
+    let currentScreen = document.getElementById('currentScreen');
+    let previousScreen = document.getElementById('previousScreen');
 
+    let deletedCurrentNumber = document.getElementById('currentScreen').textContent;
+  
+      if (deletedCurrentNumber !== "Infinity" && deletedCurrentNumber !== undefined) {
+        deletedCurrentNumber = deletedCurrentNumber.toString().slice(0, -1);
+        currentScreen.textContent = "";
+        currentScreen.textContent = deletedCurrentNumber
+      } else if (deletedCurrentNumber == "Infinity"){
+        previousScreen.textContent = "";
+        currentScreen.textContent = "0";
+      }
+      
+      if (deletedCurrentNumber == ""){
+        currentScreen.textContent = "0";
+        previousScreen.textContent = "";
+      }
+  }
+
+  function assignDigitButtons(e) {
+
+    let currentScreen = document.getElementById('currentScreen');
+    let previousScreen = document.getElementById('previousScreen');
+  
     if (currentScreen.textContent.length <= 10 && currentScreen.textContent !== "Infinity") {
       if (currentScreen.textContent == "0") {
         currentScreen.textContent = "";
@@ -86,18 +109,18 @@ digitButtonsArray.forEach(button => {
         indexAfterOperation = 0; //allows to change the operation
       }
 
-      currentScreen.textContent += button.textContent;
+      currentScreen.textContent += e.target.textContent;
     } else {
 
       currentScreen.textContent = "Infinity";
     }
-  })
-});
+  }
 
-operationsButtonsArray.forEach(button => {
+  function assignOperationButtons(e) { 
 
-  button.addEventListener('click', function() { 
-
+    let currentScreen = document.getElementById('currentScreen');
+    let previousScreen = document.getElementById('previousScreen');
+  
     if (isNaN(previousScreen.textContent.toString().slice(0, previousScreen.textContent.toString().length - 1)) !== false){
 
       previousNumber = parseFloat(previousScreen.textContent.toString().slice(0, previousScreen.textContent.toString().length - 1));
@@ -116,7 +139,7 @@ operationsButtonsArray.forEach(button => {
       
       previousOperation = currentOperation;
     }
-    currentOperation = button.textContent;
+    currentOperation = e.target.textContent;
 
     if (currentScreen.textContent.toString().slice(-1) !== "."){
       previousScreen.textContent = currentScreen.textContent;
@@ -124,38 +147,41 @@ operationsButtonsArray.forEach(button => {
       currentScreen.textContent = parseFloat(currentScreen.textContent); 
       previousScreen.textContent = currentScreen.textContent;
     }
-    if(button.textContent !== "=")
-      previousScreen.textContent += button.textContent;
+    if(e.target.textContent !== "=")
+      previousScreen.textContent += e.target.textContent;
 
-    currentScreenUpdater(button);
-  })
-});
-
-function operate (a, b, operation) {
-
-  if (operation == "+"){
-    return a + b;
-  } else if (operation == "-"){
-    return b - a;
-  } else if (operation == "*"){
-    return a * b;
-  } else if (operation == "/"){
-    return b / a;
+    currentScreenUpdate(e);
   }
-}
 
-function currentScreenUpdater(button) {
+  function operate (a, b, operation) {
+  
+    if (operation == "+"){
+      return a + b;
+    } else if (operation == "-"){
+      return b - a;
+    } else if (operation == "*"){
+      return a * b;
+    } else if (operation == "/"){
+      return b / a;
+    }
+  }
 
-  if (previousNumber !== currentNumber &&
-      isNaN(previousNumber) == false &&
-      isNaN(currentNumber) == false &&
-      currentOperation !== "" &&
-      previousOperation !== "" &&
-      previousOperation !== "=") {
+  function currentScreenUpdate(e) {
 
-    previousScreen.textContent = Math.round(operate(currentNumber, previousNumber, previousOperation) * 10000000) / 10000000; 
-    if (button.textContent !== "=")
-      previousScreen.textContent += button.textContent;
-    currentScreen.textContent = Math.round(operate(currentNumber, previousNumber, previousOperation) * 10000000) / 10000000; 
+    let currentScreen = document.getElementById('currentScreen');
+    let previousScreen = document.getElementById('previousScreen');
+  
+    if (previousNumber !== currentNumber &&
+        isNaN(previousNumber) == false &&
+        isNaN(currentNumber) == false &&
+        currentOperation !== "" &&
+        previousOperation !== "" &&
+        previousOperation !== "=") {
+  
+      previousScreen.textContent = Math.round(operate(currentNumber, previousNumber, previousOperation) * 10000000) / 10000000; 
+      if (e.target.textContent !== "=")
+        previousScreen.textContent += e.target.textContent;
+      currentScreen.textContent = Math.round(operate(currentNumber, previousNumber, previousOperation) * 10000000) / 10000000; 
+    }
   }
 }
