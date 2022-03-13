@@ -20,9 +20,14 @@ currentScreen.textContent = 0;
 equals.addEventListener('click', currentScreenUpdater);
 dot.addEventListener('click', function(){
 
-  if (currentScreen.textContent.includes(".") !== true && currentScreen.textContent !== ""){
+  if (currentScreen.textContent.includes(".") !== true && currentScreen.textContent !== "" && indexAfterOperation == 0){
 
     currentScreen.textContent += ".";
+  }else if(currentScreen.textContent == "" || indexAfterOperation == 1){
+
+    currentScreen.textContent = "";
+    currentScreen.textContent += "0."
+    indexAfterOperation = 0;
   }
 });
 
@@ -69,12 +74,13 @@ digitButtonsArray.forEach(button => {
           previousScreen.textContent.charAt(previousScreen.textContent.toString().length - 1) == "-" ||
           previousScreen.textContent.charAt(previousScreen.textContent.toString().length - 1) == "*" || 
           previousScreen.textContent.charAt(previousScreen.textContent.toString().length - 1) == "/") &&
-          indexOfEmptyScreen == 0) {
-            currentScreen.textContent = "";
+          indexOfEmptyScreen == 0 &&
+          currentScreen.textContent !== undefined) {
+            currentScreen.textContent += "";
             indexOfEmptyScreen++;
       }
 
-      if (indexAfterOperation == 1 && 1) {
+      if (indexAfterOperation == 1 && currentScreen.textContent !== undefined) {
 
         currentScreen.textContent = "";
         indexAfterOperation = 0; //allows to change the operation
