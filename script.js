@@ -3,7 +3,7 @@ main();
 function main(){
 
   let digitButtonsArray = [...document.querySelectorAll('.buttonDigit')];
-  let operationsButtonsArray = [...document.querySelectorAll('.button')];
+  let operationButtonsArray = [...document.querySelectorAll('.button')];
 
   let equals = document.getElementById('equals');
   let dot = document.getElementById('dot');
@@ -19,12 +19,12 @@ function main(){
   
   currentScreen.textContent = 0;
   
-  equals.addEventListener('click', currentScreenUpdate);
-  clearButton.addEventListener('click', cleaner);
-  dot.addEventListener('click', dotter);
-  deleteButton.addEventListener('click', remove);
+  equals.addEventListener('click', updateCurrentScreen);
+  clearButton.addEventListener('click', resetTheCalculator);
+  dot.addEventListener('click', placeDot);
+  deleteButton.addEventListener('click', removeLastDigitOnCurrentScreen);
   
-  operationsButtonsArray.forEach(button => {
+  operationButtonsArray.forEach(button => {
     
     button.addEventListener('click', assignOperationButtons)
   });
@@ -34,7 +34,7 @@ function main(){
     button.addEventListener('click', assignDigitButtons);
   });
   
-  function cleaner(){
+  function resetTheCalculator() {
     
     currentScreen.textContent = 0;
     previousScreen.textContent = "";
@@ -46,7 +46,7 @@ function main(){
     indexAfterOperation = 0
   }
 
-  function dotter(){
+  function placeDot() {
   
     let currentScreen = document.getElementById('currentScreen');
   
@@ -61,7 +61,7 @@ function main(){
     }
   }
 
-  function remove(){
+  function removeLastDigitOnCurrentScreen() {
 
     let currentScreen = document.getElementById('currentScreen');
     let previousScreen = document.getElementById('previousScreen');
@@ -147,10 +147,10 @@ function main(){
       currentScreen.textContent = parseFloat(currentScreen.textContent); 
       previousScreen.textContent = currentScreen.textContent;
     }
-    if(e.target.textContent !== "=")
+    if (e.target.textContent !== "=")
       previousScreen.textContent += e.target.textContent;
 
-    currentScreenUpdate(e);
+      updateCurrentScreen(e);
   }
 
   function operate (a, b, operation) {
@@ -166,7 +166,7 @@ function main(){
     }
   }
 
-  function currentScreenUpdate(e) {
+  function updateCurrentScreen(e) {
 
     let currentScreen = document.getElementById('currentScreen');
     let previousScreen = document.getElementById('previousScreen');
@@ -178,10 +178,10 @@ function main(){
         previousOperation !== "" &&
         previousOperation !== "=") {
   
-      previousScreen.textContent = Math.round(operate(currentNumber, previousNumber, previousOperation) * 10000000) / 10000000; 
+      previousScreen.textContent = Math.round(operate(currentNumber, previousNumber, previousOperation) * 1000000) / 1000000; 
       if (e.target.textContent !== "=")
         previousScreen.textContent += e.target.textContent;
-      currentScreen.textContent = Math.round(operate(currentNumber, previousNumber, previousOperation) * 10000000) / 10000000; 
+      currentScreen.textContent = Math.round(operate(currentNumber, previousNumber, previousOperation) * 1000000) / 1000000; 
     }
   }
 }
