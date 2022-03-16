@@ -179,7 +179,7 @@ function main(){
       currentScreen.textContent = parseFloat(currentScreen.textContent); 
       previousScreen.textContent = currentScreen.textContent;
     }
-    if (e.target !== "=" && currentScreen.textContent !== ""){
+    if (e.target !== "=" && currentScreen.textContent !== "" && currentOperation !== "="){
       previousScreen.textContent += currentOperation;
     }else if(e.target !== "=" && currentScreen.textContent == ""){
       previousScreen.textContent = previousScreen.textContent.toString().slice(0, -1);
