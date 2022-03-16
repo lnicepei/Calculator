@@ -21,7 +21,6 @@ function main(){
   currentScreen.textContent = 0;
   
   window.addEventListener("keydown", function (e) {
-    console.log(e);
     if (e.key >= 0 && e.key <= 9) {
       assignDigitButtons(e.key);
     }
@@ -56,7 +55,8 @@ function main(){
     previousOperation = "", 
     currentNumber = 0, 
     previousNumber = 0, 
-    indexAfterOperation = 0
+    indexAfterOperation = 0,
+    indexOfTransmission = 0;
   }
 
   function placeDot() {
@@ -98,8 +98,6 @@ function main(){
 
   function assignDigitButtons(e) {
 
-    console.log(e);
-
     let currentScreen = document.getElementById('currentScreen');
     let previousScreen = document.getElementById('previousScreen');
   
@@ -140,8 +138,6 @@ function main(){
 
   function assignOperationButtons(e) { 
 
-    console.log(e);
-
     let currentScreen = document.getElementById('currentScreen');
     let previousScreen = document.getElementById('previousScreen');
   
@@ -170,10 +166,16 @@ function main(){
       currentOperation = e.target.innerText;
     }
 
-    if (currentScreen.textContent.toString().slice(-1) !== "." && currentScreen.textContent !== ""){
+    // if (currentScreen.textContent.toString().slice(-1) !== "." && currentScreen.textContent !== ""){
+    //   previousScreen.textContent = currentScreen.textContent;
+    //   // indexOfTransmission = 0;
+    // } else if(currentScreen.textContent.toString().slice(-1) == ".") {
+    //   currentScreen.textContent = parseFloat(currentScreen.textContent); 
+    //   previousScreen.textContent = currentScreen.textContent;
+    // }
+    if (currentScreen.textContent.toString().slice(-1) !== "."){
       previousScreen.textContent = currentScreen.textContent;
-      // indexOfTransmission = 0;
-    } else if(currentScreen.textContent.toString().slice(-1) == ".") {
+    }else{
       currentScreen.textContent = parseFloat(currentScreen.textContent); 
       previousScreen.textContent = currentScreen.textContent;
     }
@@ -205,15 +207,22 @@ function main(){
 
     let currentScreen = document.getElementById('currentScreen');
     let previousScreen = document.getElementById('previousScreen');
+
+    // if(e.target.textContent == "=") indexOfTransmission = 0;
+    console.log(e.target);
   
-    if (indexOfTransmission !== 0 &&
+    if (indexAfterOperation == 1 &&
+        indexOfTransmission !== 0 &&
         // currentScreen.textContent !== "" &&
         isNaN(previousNumber) == false &&
         isNaN(currentNumber) == false &&
         currentOperation !== "" &&
         previousOperation !== "" &&
         previousOperation !== "=") {
-  
+
+      // currentNumber = parseFloat(currentScreen.textContent);
+      // previousNumber = parseFloat(previousScreen.textContent);
+      
       previousScreen.textContent = Math.round(operate(currentNumber, previousNumber, previousOperation) * 1000000) / 1000000; 
       if (e.target.textContent !== "=")
         previousScreen.textContent += e.target.textContent;
