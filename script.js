@@ -15,10 +15,23 @@ function main(){
   previousOperation = "", 
   currentNumber = 0, 
   previousNumber = 0, 
-  indexAfterOperation = 0;
+  indexAfterOperation = 0,
+  indexOfTransmission = 0;
   
   currentScreen.textContent = 0;
   
+  window.addEventListener("keydown", function (e) {
+    console.log(e);
+    if (e.key >= 0 && e.key <= 9) {
+      assignDigitButtons(e.key);
+    }
+    if (e.key == "+" || e.key == "-" || e.key == "*" || e.key == "/") assignOperationButtons(e.key);
+    if (e.key == "=") equalizer();
+    if (e.key == ".") dotter();
+    if (e.key == "Backspace") deleter();
+    if (e.key == "Delete") clarifier();
+  });
+
   equals.addEventListener('click', updateCurrentScreen);
   clearButton.addEventListener('click', resetTheCalculator);
   dot.addEventListener('click', placeDot);
@@ -85,6 +98,8 @@ function main(){
 
   function assignDigitButtons(e) {
 
+    console.log(e);
+
     let currentScreen = document.getElementById('currentScreen');
     let previousScreen = document.getElementById('previousScreen');
   
@@ -108,8 +123,15 @@ function main(){
         currentScreen.textContent = "";
         indexAfterOperation = 0; //allows to change the operation
       }
+      if (e.target !== undefined){
 
-      currentScreen.textContent += e.target.textContent;
+        currentScreen.textContent += e.target.textContent;
+        indexOfTransmission++;
+      } else{
+
+        currentScreen.textContent += e;
+        indexOfTransmission++;
+      }
     } else {
 
       currentScreen.textContent = "Infinity";
@@ -117,6 +139,8 @@ function main(){
   }
 
   function assignOperationButtons(e) { 
+
+    console.log(e);
 
     let currentScreen = document.getElementById('currentScreen');
     let previousScreen = document.getElementById('previousScreen');
@@ -139,18 +163,29 @@ function main(){
       
       previousOperation = currentOperation;
     }
-    currentOperation = e.target.textContent;
+    if (e.target !== undefined){
 
-    if (currentScreen.textContent.toString().slice(-1) !== "."){
+      currentOperation = e.target.innerText;
+    } else {
+      currentOperation = e.target.innerText;
+    }
+
+    if (currentScreen.textContent.toString().slice(-1) !== "." && currentScreen.textContent !== ""){
       previousScreen.textContent = currentScreen.textContent;
-    }else{
+      // indexOfTransmission = 0;
+    } else if(currentScreen.textContent.toString().slice(-1) == ".") {
       currentScreen.textContent = parseFloat(currentScreen.textContent); 
       previousScreen.textContent = currentScreen.textContent;
     }
-    if (e.target.textContent !== "=")
+    if (e.target !== "=" && currentScreen.textContent !== ""){
+      previousScreen.textContent += currentOperation;
+    }else if(e.target !== "=" && currentScreen.textContent == ""){
+      previousScreen.textContent = previousScreen.textContent.toString().slice(0, -1);
       previousScreen.textContent += e.target.textContent;
-
-      updateCurrentScreen(e);
+    }
+    
+    updateCurrentScreen(e);
+    indexOfTransmission = 0;
   }
 
   function operate (a, b, operation) {
@@ -171,7 +206,8 @@ function main(){
     let currentScreen = document.getElementById('currentScreen');
     let previousScreen = document.getElementById('previousScreen');
   
-    if (previousNumber !== currentNumber &&
+    if (indexOfTransmission !== 0 &&
+        // currentScreen.textContent !== "" &&
         isNaN(previousNumber) == false &&
         isNaN(currentNumber) == false &&
         currentOperation !== "" &&
