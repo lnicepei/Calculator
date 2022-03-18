@@ -141,7 +141,7 @@ body{
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ccc;
+    background-color: #acd0c0;
     -webkit-transition: .4s;
     transition: .4s;
   }
@@ -159,7 +159,7 @@ body{
   }
   
   input:checked + .slider {
-    background-color: black;
+    background-color: #2f2e33;
   }
   
   input:focus + .slider {
