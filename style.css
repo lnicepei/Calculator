@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@900&display=swap');
 body{
     font-family: 'Inter', sans-serif;
     font-weight: 900;
@@ -10,6 +11,20 @@ body{
     justify-content: center;
     background-color: #acd0c0;
 }
+.dark{
+    background-color: #2f2e33;
+    color: #3a5199;
+}
+.background-dark{
+    background-color: red;
+}
+#aniColors{
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    list-style: none;
+}
 #body{
     display: flex;
     justify-content: space-around;
@@ -18,27 +33,41 @@ body{
     /* border: 1px solid grey; */
     border-radius: 30px;
     margin: 50px;
-    /* box-shadow: -6px -6px 10px rgba(255, 255, 255, 0.5),
-    6px 6px 10px rgba(0, 0, 0, 0.1); */
-    -webkit-touch-callout: none;
+    box-shadow: -6px -6px 10px rgba(255, 255, 255, 0.5),
+    6px 6px 10px rgba(0, 0, 0, 0.1);
     -webkit-user-select: none;
      -khtml-user-select: none;
        -moz-user-select: none;
         -ms-user-select: none;
-            user-select: none; 
+            user-select: none;
     background-color: #f1f1f2;
 }
-#screen{
+#currentScreen{
     width: 368px;
-    height: 123px;
+    height: 80px;
     display: flex;
     align-items: flex-end;
     justify-content: flex-end;
     font-size: 50px;
     margin: 20px;
+    margin-top: 0;
     background-color: #f1f1f2;
     /* transition: 0.5s linear; */
 }
+#previousScreen{
+    font-family: 'Roboto Slab', serif;
+    color: grey;    
+    width: 368px;
+    height: 23px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    font-size: 20px;
+    margin: 20px;
+    margin-bottom: 0;
+    background-color: #f1f1f2;
+}
+
 #secondRow, #thirdRow, #fourthRow, #fifthRow{
     display: flex;
     flex-direction: row;
@@ -51,11 +80,16 @@ body{
     justify-content: space-around;
     color: #47fad9;
 }
-#buttons, .ac, .delete, .dot{
+.buttons, .ac, .delete, .dot{
     padding: 10px;
     background-color: #4f6457;
     border-radius: 30px;
 }
+
+.buttons.dark {
+    background-color: #d5d6d2;
+}
+
 .button:hover, .buttonDigit:hover, .ac:hover, .delete:hover, .dot:hover{
     background-color: #dfc7c7;
 }
@@ -87,3 +121,62 @@ body{
     background-color: #dfc7c7;
     transition: all 0.07;
 }
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  .switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #acd0c0;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #2f2e33;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }

@@ -1,210 +1,281 @@
-let displayValue = document.createElement("div");
-
-let operation = "",
-  result = 0,
-  currentNumber = 0,
-  previousNumber = 0,
-  operationCounter = 0,
-  index = 0,
-  newString = "",
-  operationsArray = [],
-  operationIndex = 0; //counts number of elements in operationsArray
-
-let btns = document.getElementsByClassName("buttonDigit");
-let btnsArray = [...btns];
-
-document.getElementById("clear").addEventListener("click", clarifier);
-document.getElementById("delete").addEventListener("click", deleter);
-document.getElementById("dot").addEventListener("click", dotter);
-
-window.addEventListener("keydown", function (e) {
-  if (e.key >= 0 && e.key <= 9) {
-    digitButtonAssigner(e.key);
-    buttonColorStart(e);
-  }
-  if (e.key == "+" || e.key == "-" || e.key == "*" || e.key == "/")
-    operate(e.key);
-  if (e.key == "=") equalizer();
-  if (e.key == ".") dotter();
-  if (e.key == "Backspace") deleter();
-  if (e.key == "Delete") clarifier();
-});
-
-const buttons = document.querySelectorAll(".buttonDigit");
-buttons.forEach((button) =>
-  button.addEventListener("transitionend", buttonColorEnd)
-);
-
-function buttonColorEnd(e) {
-  if (e.propertyName !== "transform") return;
-  this.classList.remove("tapping");
-}
-
-function buttonColorStart(e) {
-  const key = document.querySelector(`.buttonDigit[data-key ="${e.keyCode}"]`);
-  console.log(e.keyCode);
-  key.classList.add("tapping");
-}
-
 main();
 
 function main() {
-  document.getElementById("screen").textContent = "0";
-  btnsArray.forEach((btn) => {
-    btn.addEventListener("click", digitButtonAssigner, false);
+  let digitButtonsArray = [...document.querySelectorAll(".buttonDigit")];
+  let operationButtonsArray = [...document.querySelectorAll(".button")];
+
+  let equals = document.getElementById("equals");
+  let dot = document.getElementById("dot");
+  let deleteButton = document.getElementById("delete");
+  let clearButton = document.getElementById("clear");
+  let switcher = document.querySelector('.slider');
+
+  let indexOfEmptyScreen = 0,
+    currentOperation = "",
+    previousOperation = "",
+    currentNumber = 0,
+    previousNumber = 0,
+    indexAfterOperation = 0,
+    indexOfTransmission = 0;
+
+  currentScreen.textContent = 0;
+
+  window.addEventListener("keydown", function (e) {
+    if (e.key >= 0 && e.key <= 9 && e.key !== " ") {
+      console.log(e.key);
+      assignDigitButtons(e.key);
+    }
+    if (e.key == "+" || e.key == "-" || e.key == "*" || e.key == "/")
+      assignOperationButtons(e.key);
+    if (e.key == "=") assignOperationButtons(e.key);
+    if (e.key == ".") placeDot();
+    if (e.key == "Backspace") removeLastDigitOnCurrentScreen();
+    if (e.key == "Delete") resetTheCalculator();
   });
-  let operations = document.getElementsByClassName("button");
-  let btnsArray1 = [...operations];
 
-  for (let buttonOfArray of btnsArray1) {
-    buttonOfArray.addEventListener("click", operate, false);
-  }
-}
+  switcher.addEventListener("click", function () {
+    document.body.classList.toggle("dark");
+    let buttons = document.querySelector(".js-buttons");
+    buttons.classList.toggle("dark");
+    let buttonsBackground = document.querySelector('.buttonDigit')
+    buttonsBackground.classList.toggle("background-dark");
+  });
+  equals.addEventListener("click", updateCurrentScreen);
+  clearButton.addEventListener("click", resetTheCalculator);
+  dot.addEventListener("click", placeDot);
+  deleteButton.addEventListener("click", removeLastDigitOnCurrentScreen);
 
-function digitButtonAssigner(btn) {
-  if (index == 0) {
-    document.getElementById("screen").textContent = ""; //if() checks if there are digits on the screen after operations
-  }
-  if (document.getElementById("screen").textContent == "0") {
-    document.getElementById("screen").textContent = ""; //forbids to add many 0s
-  }
-  if (
-    parseFloat(document.getElementById("screen").textContent).toString()
-      .length < 11
-  ) {
-    if (btn.srcElement !== undefined) {
-      document.getElementById("screen").textContent +=
-        btn.srcElement.textContent;
-    } else if ((btn <= 9 && btn >= 0) || btn == ".") {
-      document.getElementById("screen").textContent += btn;
-      // btn.classList.add('button:hover')
-      console.log(btn);
-    }
-  }
-  index = 1;
-}
-function operationChoice(btn) {
-  if (index != 0) {
-    if (operationIndex > 4) {
-      let temp = operationsArray[operationIndex - 1];
-      console.log(operationsArray[operationIndex - 1]);
-      operationIndex = 1;
-      operationsArray = [];
-      operationsArray.push(temp);
-    }
-    if (btn == "=" || btn.srcElement.textContent == "=") {
-      document.getElementById("screen").textContent +=
-        operationsArray[operationIndex - 1];
-      return btn.srcElement.textContent;
-    }
-    if (btn == "+" || btn == "-" || btn == "*" || btn == "/" || btn == "=") {
-      operationsArray.push(btn);
-      document.getElementById("screen").textContent +=
-        operationsArray[operationIndex - 1];
-      console.log(operationsArray);
-    } else if (
-      btn.srcElement.textContent == "+" ||
-      btn.srcElement.textContent == "-" ||
-      btn.srcElement.textContent == "*" ||
-      btn.srcElement.textContent == "/" ||
-      btn.srcElement.textContent == "="
-    ) {
-      operationsArray.push(btn.srcElement.textContent);
-      console.log(operationsArray);
-      document.getElementById("upperScreen").textContent +=
-        document.getElementById("screen").textContent;
-      console.log(operationsArray[operationIndex - 1]);
-    }
-    document
-      .getElementById("screen")
-      .appendChild(operationsArray[operationIndex - 1]);
-    return operationsArray[operationIndex - 1];
-  }
-  index++;
-}
+  operationButtonsArray.forEach((button) => {
+    button.addEventListener("click", assignOperationButtons);
+  });
 
-function operate(btn) {
-  if (operationCounter != 0) {
-    currentNumber = parseFloat(document.getElementById("screen").textContent);
-  }
-  if (operationCounter == 0) {
-    previousNumber = parseFloat(document.getElementById("screen").textContent);
-  }
-  operation = operationChoice(btn);
-  operationIndex++;
-  if (operationCounter > 0) {
-    if (operation === "+") {
-      result = currentNumber + previousNumber;
-      previousNumber = result;
-      // screenUpdater(result);
-      // document.getElementById("screen").textContent = result;
-    } else if (operation === "-") {
-      result = -currentNumber + previousNumber;
-      previousNumber = result;
-      // screenUpdater(result);
-      // document.getElementById("screen").textContent = result;
-    } else if (operation === "*") {
-      result = currentNumber * previousNumber;
-      previousNumber = result;
-      // screenUpdater(result);
-      // document.getElementById("screen").textContent = result;
-    } else if (operation === "/") {
-      result = previousNumber / currentNumber;
-      previousNumber = result;
-      // screenUpdater(result);
-    } else if (operation === "=") {
-      equalizer();
-      previousNumber = result;
-    }
-    screenUpdater(result);
-  }
-  ++operationCounter;
-  index = 0;
-}
+  digitButtonsArray.forEach((button) => {
+    button.addEventListener("click", assignDigitButtons);
+  });
 
-function equalizer() {
-  screenUpdater(result);
-  previousNumber = result;
-}
-
-function clarifier() {
-  document.getElementById("screen").textContent = "0";
-  operationCounter = 0;
-  index = 0;
-  operationIndex = 0;
-  operationsArray = [];
-}
-
-function deleter() {
-  let deletedNumber = document.getElementById("screen").textContent;
-  if (deletedNumber !== "Infinity") {
-    deletedNumber = deletedNumber.slice(0, -1);
-    document.getElementById("screen").textContent = "";
-    document.getElementById("screen").textContent += deletedNumber;
-    if (deletedNumber == "")
-      document.getElementById("screen").textContent = "0";
-  } else {
-    (currentNumber = 0),
+  function resetTheCalculator() {
+    currentScreen.textContent = 0;
+    previousScreen.textContent = "";
+    (indexOfEmptyScreen = 0),
+      (currentOperation = ""),
+      (previousOperation = ""),
+      (currentNumber = 0),
       (previousNumber = 0),
-      (document.getElementById("screen").textContent = "0");
+      (indexAfterOperation = 0),
+      (indexOfTransmission = 0);
   }
-}
 
-function dotter() {
-  if (document.getElementById("screen").textContent.includes(".") !== true) {
-    document.getElementById("screen").textContent += ".";
+  function placeDot() {
+    let currentScreen = document.getElementById("currentScreen");
+
+    if (
+      currentScreen.textContent.includes(".") !== true &&
+      currentScreen.textContent !== "" &&
+      indexAfterOperation == 0
+    ) {
+      currentScreen.textContent += ".";
+    } else if (currentScreen.textContent == "" || indexAfterOperation == 1) {
+      currentScreen.textContent = "";
+      currentScreen.textContent += "0.";
+      indexAfterOperation = 0;
+    }
   }
-  index++;
-}
 
-function screenUpdater(result) {
-  result = Math.round(result * 10000) / 10000;
-  document.getElementById("screen").textContent = result;
-  if (result >= 99999999999) {
-    // for (let i = 0; i < result.toString().length; i++) {
-    //   newString = result.toString().slice(0, 10 - result.toString().length);
+  function removeLastDigitOnCurrentScreen() {
+    let currentScreen = document.getElementById("currentScreen");
+    let previousScreen = document.getElementById("previousScreen");
+
+    let deletedCurrentNumber =
+      document.getElementById("currentScreen").textContent;
+
+    if (
+      deletedCurrentNumber !== "Infinity" &&
+      deletedCurrentNumber !== undefined
+    ) {
+      deletedCurrentNumber = deletedCurrentNumber.toString().slice(0, -1);
+      currentScreen.textContent = "";
+      currentScreen.textContent = deletedCurrentNumber;
+    } else if (deletedCurrentNumber == "Infinity") {
+      previousScreen.textContent = "";
+      currentScreen.textContent = "0";
+    }
+
+    if (deletedCurrentNumber == "") {
+      currentScreen.textContent = "0";
+      previousScreen.textContent = "";
+    }
+  }
+
+  function assignDigitButtons(e) {
+    let currentScreen = document.getElementById("currentScreen");
+    let previousScreen = document.getElementById("previousScreen");
+
+    if (
+      currentScreen.textContent.length <= 10 &&
+      currentScreen.textContent !== "Infinity"
+    ) {
+      if (currentScreen.textContent == "0") {
+        currentScreen.textContent = "";
+      }
+
+      if (
+        (previousScreen.textContent.charAt(
+          previousScreen.textContent.toString().length - 1
+        ) == "+" ||
+          previousScreen.textContent.charAt(
+            previousScreen.textContent.toString().length - 1
+          ) == "-" ||
+          previousScreen.textContent.charAt(
+            previousScreen.textContent.toString().length - 1
+          ) == "*" ||
+          previousScreen.textContent.charAt(
+            previousScreen.textContent.toString().length - 1
+          ) == "/") &&
+        indexOfEmptyScreen == 0 &&
+        currentScreen.textContent !== undefined
+      ) {
+        currentScreen.textContent += "";
+        indexOfEmptyScreen++;
+      }
+
+      if (indexAfterOperation == 1 && currentScreen.textContent !== undefined) {
+        currentScreen.textContent = "";
+        indexAfterOperation = 0; //allows to change the operation
+      }
+      if (e.target !== undefined) {
+        currentScreen.textContent += e.target.textContent;
+        indexOfTransmission++;
+      } else {
+        currentScreen.textContent += e;
+        indexOfTransmission++;
+      }
+    } else {
+      currentScreen.textContent = "Infinity";
+    }
+  }
+
+  function assignOperationButtons(e) {
+    let currentScreen = document.getElementById("currentScreen");
+    let previousScreen = document.getElementById("previousScreen");
+
+    if (currentScreen.textContent == "Infinity") {
+      resetTheCalculator();
+      return;
+    }
+
+    if (
+      isNaN(
+        previousScreen.textContent
+          .toString()
+          .slice(0, previousScreen.textContent.toString().length - 1)
+      ) !== false
+    ) {
+      previousNumber = parseFloat(
+        previousScreen.textContent
+          .toString()
+          .slice(0, previousScreen.textContent.toString().length - 1)
+      );
+    } else {
+      previousNumber = parseFloat(previousScreen.textContent);
+    }
+
+    currentNumber = parseFloat(currentScreen.textContent);
+    indexAfterOperation = 1;
+
+    if (
+      isNaN(
+        previousScreen.textContent
+          .toString()
+          .slice(0, previousScreen.textContent.toString().length - 1)
+      ) == true
+    ) {
+      previousOperation = previousScreen.textContent
+        .toString()
+        .slice(
+          previousScreen.textContent.toString().length - 1,
+          previousScreen.textContent.toString().length
+        );
+    } else {
+      previousOperation = currentOperation;
+    }
+    if (e.target !== undefined) {
+      currentOperation = e.target.innerText;
+    } else {
+      currentOperation = e;
+    }
+
+    // if (currentScreen.textContent.toString().slice(-1) !== "." && currentScreen.textContent !== ""){
+    //   previousScreen.textContent = currentScreen.textContent;
+    //   // indexOfTransmission = 0;
+    // } else if(currentScreen.textContent.toString().slice(-1) == ".") {
+    //   currentScreen.textContent = parseFloat(currentScreen.textContent);
+    //   previousScreen.textContent = currentScreen.textContent;
     // }
-    document.getElementById("screen").textContent = "Infinity";
-    console.log(newString);
+    if (currentScreen.textContent.toString().slice(-1) !== ".") {
+      previousScreen.textContent = currentScreen.textContent;
+    } else {
+      currentScreen.textContent = parseFloat(currentScreen.textContent);
+      previousScreen.textContent = currentScreen.textContent;
+    }
+    if (
+      e.target !== "=" &&
+      currentScreen.textContent !== "" &&
+      currentOperation !== "="
+    ) {
+      previousScreen.textContent += currentOperation;
+    } else if (e.target !== "=" && currentScreen.textContent == "") {
+      previousScreen.textContent = previousScreen.textContent
+        .toString()
+        .slice(0, -1);
+      previousScreen.textContent += e.target.textContent;
+    }
+
+    updateCurrentScreen(e);
+    indexOfTransmission = 0;
+  }
+
+  function operate(a, b, operation) {
+    if (operation == "+") {
+      return a + b;
+    } else if (operation == "-") {
+      return b - a;
+    } else if (operation == "*") {
+      return a * b;
+    } else if (operation == "/") {
+      return b / a;
+    }
+  }
+
+  function updateCurrentScreen(e) {
+    let currentScreen = document.getElementById("currentScreen");
+    let previousScreen = document.getElementById("previousScreen");
+
+    // if(e.target.textContent == "=") indexOfTransmission = 0;
+    console.log(e.target);
+
+    if (
+      indexAfterOperation == 1 &&
+      indexOfTransmission !== 0 &&
+      // currentScreen.textContent !== "" &&
+      isNaN(previousNumber) == false &&
+      isNaN(currentNumber) == false &&
+      currentOperation !== "" &&
+      previousOperation !== "" &&
+      previousOperation !== "="
+    ) {
+      // currentNumber = parseFloat(currentScreen.textContent);
+      // previousNumber = parseFloat(previousScreen.textContent);
+
+      previousScreen.textContent =
+        Math.round(
+          operate(currentNumber, previousNumber, previousOperation) * 1000000
+        ) / 1000000;
+      if (currentOperation !== "=")
+        previousScreen.textContent += currentOperation;
+      currentScreen.textContent =
+        Math.round(
+          operate(currentNumber, previousNumber, previousOperation) * 1000000
+        ) / 1000000;
+    }
   }
 }
