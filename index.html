@@ -13,7 +13,7 @@
         <div id="body">
             <div id="previousScreen"></div>
             <div id="currentScreen"></div>
-            <div id="buttons">
+            <div id="buttons" class="buttons js-buttons">
                 <div id="firstRow">
                     <div data-key="46" id="clear" class="ac">AC</div>
                     <div data-key="8" id="delete" class="delete"><--</div>
@@ -43,7 +43,16 @@
                     <div data-key="107" id="add" class="button">+</div>
                 </div>
             </div>
+            <ul id="aniColors">
+                <li id="blueButton">light</li>
+                <li><label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider round"></span>
+                </label></li>
+                <li>dark</li>
+            </ul>
         </div>
+        
     </div>
     <script src="script.js"></script>
 </body>
