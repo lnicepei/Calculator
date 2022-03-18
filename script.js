@@ -204,13 +204,6 @@ function main() {
       currentOperation = e;
     }
 
-    // if (currentScreen.textContent.toString().slice(-1) !== "." && currentScreen.textContent !== ""){
-    //   previousScreen.textContent = currentScreen.textContent;
-    //   // indexOfTransmission = 0;
-    // } else if(currentScreen.textContent.toString().slice(-1) == ".") {
-    //   currentScreen.textContent = parseFloat(currentScreen.textContent);
-    //   previousScreen.textContent = currentScreen.textContent;
-    // }
     if (currentScreen.textContent.toString().slice(-1) !== ".") {
       previousScreen.textContent = currentScreen.textContent;
     } else {
@@ -250,28 +243,24 @@ function main() {
     let currentScreen = document.getElementById("currentScreen");
     let previousScreen = document.getElementById("previousScreen");
 
-    // if(e.target.textContent == "=") indexOfTransmission = 0;
-    console.log(e.target);
+    console.log(e);
 
     if (
       indexAfterOperation == 1 &&
       indexOfTransmission !== 0 &&
-      // currentScreen.textContent !== "" &&
       isNaN(previousNumber) == false &&
       isNaN(currentNumber) == false &&
       currentOperation !== "" &&
       previousOperation !== "" &&
       previousOperation !== "="
     ) {
-      // currentNumber = parseFloat(currentScreen.textContent);
-      // previousNumber = parseFloat(previousScreen.textContent);
 
       previousScreen.textContent =
         Math.round(
           operate(currentNumber, previousNumber, previousOperation) * 1000000
         ) / 1000000;
-      if (e.target.textContent !== "=")
-        previousScreen.textContent += e.target.textContent;
+      if (e !== "=" || e !== undefined)
+        previousScreen.textContent += e;
       currentScreen.textContent =
         Math.round(
           operate(currentNumber, previousNumber, previousOperation) * 1000000
